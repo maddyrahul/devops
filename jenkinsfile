@@ -1,7 +1,5 @@
-
 pipeline {
     agent any
-
 
     stages {
         stage('Checkout') {
@@ -21,7 +19,5 @@ pipeline {
                 sh 'dotnet test HelloWorldApp.sln --logger "trx;LogFileName=./HelloWorldApp.trx"'
             }
         }
-
-        
-    
-}
+    } // This is the end of the 'stages' section
+} // This is the end of the 'pipeline' section
