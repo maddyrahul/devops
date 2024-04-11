@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout your source code from your version control system
+                git 'https://github.com/maddyrahul/devops.git'
+            }
+        }
+        stage('Restore Packages') {
+            steps {
+                // Restore NuGet packages
+                bat 'nuget restore HelloWorldApp.sln'
+            }
+        }
+        stage('Build') {
+            steps {
+                // Build your .NET solution
+                bat 'msbuild /t:Build /p:Configuration=Release HelloWorldApp.sln'
+            }
+        }
+        stage('Unit Test') {
+            steps {
+                // Run unit tests
+                bat 'vstest.console.exe /platform:x64 /Framework:Framework45 HelloWorldApp.dll'
+            }
+        }
+        stage('Publish') {
+            steps {
+                // Publish your application
+                bat 'msbuild /t:Publish /p:Configuration=Release /p:Platform="Any CPU" HelloWorldApp.csproj'
+            }
+        }
+    }
+}
